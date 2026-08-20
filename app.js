@@ -1,10 +1,12 @@
-// app.js
 const express = require('express');
 const app = express();
 const port = 3000;
 
-// Homepage
+// Homepage with visitor IP logging
 app.get('/', (req, res) => {
+  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() ?? req.socket.remoteAddress;
+  console.log(`Visitor IP: ${ip}`);
+  
   res.send('<h1>🚗 QuickCar Rentals</h1><p>ERROR 404</p>');
 });
 
@@ -12,18 +14,8 @@ app.get('/', (req, res) => {
 app.get('/book', (req, res) => {
   res.send('<h2>Book a Car</h2><p>Sorry we are having problems, 31-49U295824Y5924524524!</p><a href="/">Back to Home</a>');
 });
-app.get('/', (req, res) => {
-  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() ?? req.socket.remoteAddress;
-  
-  console.log(`Visitor IP: ${ip}`);
-  res.send('Hello!');
-});
-  console.log(`Visitor IP: ${ip}`);
-  res.send('Hello!');
-});
-});
 
-
+// Start the server
 app.listen(port, () => {
   console.log(`Site running at http://localhost:${port}`);
 });
